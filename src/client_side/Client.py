@@ -1,7 +1,5 @@
 import socket
 import pyautogui
-import threading
-import pynput
 
 BUFFER = []
 
@@ -11,8 +9,8 @@ def is_pressing():
 
 
 class Client:
-    def __init__(self, ip, port):
-        self.ip = ip
+    def __init__(self, host_ip, port):
+        self.ip = host_ip
         self.port = port
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.connect((self.ip, self.port))
@@ -28,8 +26,7 @@ class Client:
 
 
 def main():
-    threading.Thread(target=is_pressing, args=()).start()
-    client = Client(ip="192.168.0.133", port=9872)
+    client = Client(host_ip="192.168.0.133", port=9872)
     client.send_data()
 
 
