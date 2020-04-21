@@ -26,7 +26,7 @@ class Client:
 
 
 def main():
-    client = Client(host_ip="192.168.0.133", port=9872)
+    client = Client(host_ip="192.168.0.138", port=9872)
     client.send_data()
 
 

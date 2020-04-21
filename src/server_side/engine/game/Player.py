@@ -1,9 +1,7 @@
 from server_side.engine.game.Circle import Circle
 from server_side.engine.game.Point import Point
 
-
-def create_vector(size, vector):  # vector = Point
-    pass
+CENTER = Point(0, 0)
 
 
 class Player:
@@ -15,13 +13,30 @@ class Player:
         self.circles = []
         self.circles.append(Circle(point_coordinate=spawn_point, circle_id=0))
 
-    def duplicate(self, move_vector):
-        self.move(move_vector)
+    def hypothesis_circles_locations(self, vector):
+        locations = []
         for circle in self.circles:
-            circle.duplicate_circle(move_vector)
+            locations.append(circle.hypothesis_location(vector))
+        return locations
 
-    def move(self, move_vector):
-        for circle in self.circles:
-            next_circles_positions = []
-        for circle in self.circles:
-            circle.move_circle(self.speed, move_vector)
+    def create_vector(self, mouse_vector):  # vector = Point
+        base_point = self.circles[0].point_coordinate
+        a = self.speed
+        b = mouse_vector.distance(base_point) - a
+        next_position_vector = Point((a * mouse_vector.x + b * base_point.x) / (a + b),
+                                     (a * mouse_vector.y + b * base_point.y) / (a + b))
+        return next_position_vector
+
+    def duplicate(self, mouse_vector, map_radios):
+        self.move(mouse_vector, map_radios)
+        # TODO - think about mechanics
+
+    def move(self, mouse_vector, map_radios):
+        vector = self.create_vector(mouse_vector=mouse_vector)
+        hypothesis_circle_locations = self.hypothesis_circles_locations(vector)
+        for point in hypothesis_circle_locations:
+            if point.distance(CENTER) > map_radios:
+                break
+        else:
+            for circle in self.circles:
+                circle.move_circle(vector)
