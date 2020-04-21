@@ -1,4 +1,4 @@
-from random import randrange
+import random
 
 from server_side.engine.game import Constants
 from server_side.engine.game.Point import Point
@@ -6,15 +6,12 @@ from server_side.engine.game.Player import Player
 
 
 def create_random_points():
-    center = Point(0, 0)
-    points = []
-    for x in range(Constants.MAP_RADIOS):
-        for y in range(Constants.MAP_RADIOS):
-            point = Point(x, y)
-            if point.distance(center) < Constants.MAP_RADIOS:
-                if randrange(100) < Constants.POINTS_DENSITY * 100:
-                    points.append(point)
-    return points
+    list_of_points = []
+    for i in range(-Constants.MAP_RADIOS, Constants.MAP_RADIOS):
+        x = random.randint(-Constants.MAP_RADIOS, Constants.MAP_RADIOS)
+        y = random.randint(-Constants.MAP_RADIOS, Constants.MAP_RADIOS)
+        list_of_points.append(Point(x, y))
+    return list_of_points
 
 
 def create_hypothesis_spawn_points():

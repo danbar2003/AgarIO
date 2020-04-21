@@ -5,6 +5,7 @@ from server_side.engine.game.Map import Map
 
 RECEIVE_SIZE = 1024
 SERVER_IP = socket.gethostbyname(socket.gethostname())
+world = Map()
 
 
 def receive_data(client_socket):
@@ -30,7 +31,6 @@ class Server:
         self.server_socket.bind((self.ip, self.port))
         self.server_socket.listen(1)
         self.clients = {}
-        self.world = Map()
         threading.Thread(target=self.accept, args=()).start()
 
     def accept(self):
@@ -38,7 +38,7 @@ class Server:
         while True:
             client_socket, client_address = self.server_socket.accept()
             print("someone joined")
-            self.clients[client_socket] = self.world.create_new_player()
+            self.clients[client_socket] = world.create_new_player()
 
     def get_clients(self):
         lst = []
@@ -51,15 +51,14 @@ class Server:
             # execute all clients instructions
             for client in self.get_clients():
                 player = self.clients[client]
-                self.world.exec_instructions(player=player, player_instructions=receive_data(client))
-            self.world.player_interactions()
+                world.exec_instructions(player=player, player_instructions=receive_data(client))
+            world.player_interactions()
             # share to clients world status
             for client in self.get_clients():
                 pass
 
 
 def main():
-    print("asdsadsa")
     server = Server(ip=SERVER_IP, port=9872)
     server.game_loop()
 
