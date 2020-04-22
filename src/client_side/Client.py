@@ -1,5 +1,6 @@
 import socket
 import pyautogui
+import time
 
 BUFFER = []
 
@@ -20,13 +21,13 @@ class Client:
         while True:  # user in window
             # if user pressed on something -> duplicate
             if is_pressing():
-                self.client_socket.send('(dup, {})'.format(pyautogui.position()).encode())
+                self.client_socket.send(' dup {}'.format(pyautogui.position()).encode())
             else:  # normal movement
                 self.client_socket.send(str(pyautogui.position()).encode())
-
+            time.sleep(0.00001)
 
 def main():
-    client = Client(host_ip="192.168.0.138", port=9872)
+    client = Client(host_ip="192.168.0.133", port=9872)
     client.send_data()
 
 

@@ -49,7 +49,7 @@ class Map:
         self.players.append(player)
         return player
 
-    def exec_instructions(self, player, player_instructions):
+    def exec_instructions(self, client, player, player_instructions):
         dup, mouse_vector = player_instructions
         if dup:
             player.duplicate(mouse_vector, self.radios)
@@ -58,3 +58,7 @@ class Map:
 
     def player_interactions(self):
         pass
+
+    def to_string(self):
+        for player in self.players:
+            player.to_string()

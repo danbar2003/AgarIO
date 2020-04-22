@@ -20,3 +20,7 @@ class Circle:
 
     def contains(self, point):
         return point.distance(self.point_coordinate) < self.circle_radios
+
+    def to_string(self):
+        print('    circle_id', self.circle_id)
+        print('    circle_size', self.circle_radios)

@@ -40,3 +40,8 @@ class Player:
         else:
             for circle in self.circles:
                 circle.move_circle(vector)
+
+    def to_string(self):
+        print('player_id', self.player_id)
+        for circle in self.circles:
+            circle.to_string()
