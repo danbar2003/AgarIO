@@ -28,8 +28,7 @@ class Client:
 
 
 def main():
-    threading.Thread(target=is_pressing, args=()).start()
-    client = Client(ip="192.168.0.133", port=9872)
+    client = Client(ip="192.168.0.138", port=9872)
     client.send_data()
 
 
