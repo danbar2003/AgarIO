@@ -56,7 +56,8 @@ class Server:
             except Exception:
                 pass
 
-
+    def share_data_to_clients(self):
+        pass
 
 
 
