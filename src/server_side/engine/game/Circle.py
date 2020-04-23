@@ -23,4 +23,6 @@ class Circle:
 
     def to_string(self):
         print('    circle_id', self.circle_id)
-        print('    circle_size', self.circle_radios)
+        print('        circle coordinate', self.point_coordinate.x, self.point_coordinate.y)
+        print('        circle radios', self.circle_radios)
+

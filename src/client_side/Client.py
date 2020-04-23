@@ -24,10 +24,11 @@ class Client:
                 self.client_socket.send(' dup {}'.format(pyautogui.position()).encode())
             else:  # normal movement
                 self.client_socket.send(str(pyautogui.position()).encode())
-            time.sleep(0.00001)
+        time.sleep(0.0001)
+
 
 def main():
-    client = Client(host_ip="192.168.0.133", port=9872)
+    client = Client(host_ip="127.0.0.1", port=9871)
     client.send_data()
 
 

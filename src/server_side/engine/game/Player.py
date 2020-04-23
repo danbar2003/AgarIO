@@ -1,5 +1,6 @@
 from server_side.engine.game.Circle import Circle
 from server_side.engine.game.Point import Point
+import math
 
 CENTER = Point(0, 0)
 
@@ -9,7 +10,7 @@ class Player:
     def __init__(self, spawn_point, player_id, color):  # etc
         self.player_id = player_id  # id
         self.color = color  # color
-        self.speed = 1
+        self.speed = 10
         self.circles = []
         self.circles.append(Circle(point_coordinate=spawn_point, circle_id=0))
 
@@ -21,11 +22,10 @@ class Player:
 
     def create_vector(self, mouse_vector):  # vector = Point
         base_point = self.circles[0].point_coordinate
-        a = self.speed
-        b = mouse_vector.distance(base_point) - a
-        next_position_vector = Point((a * mouse_vector.x + b * base_point.x) / (a + b),
-                                     (a * mouse_vector.y + b * base_point.y) / (a + b))
-        return next_position_vector
+        vector = Point(mouse_vector.x - base_point.x, mouse_vector.y - base_point.y)
+        size = vector.distance(Point(0, 0))
+        vector.x, vector.y = (self.speed / size) * vector.x, (self.speed / size) * vector.y
+        return vector
 
     def duplicate(self, mouse_vector, map_radios):
         self.move(mouse_vector, map_radios)

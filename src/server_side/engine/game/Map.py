@@ -1,4 +1,5 @@
 import random
+import threading
 
 from server_side.engine.game import Constants
 from server_side.engine.game.Point import Point
@@ -25,6 +26,12 @@ def create_hypothesis_spawn_points():
 
 class Map:
 
+    def __init__(self, radios=Constants.MAP_RADIOS):
+        self.points = create_random_points()
+        self.radios = radios
+        self.players = []
+        threading.Thread(target=self.player_interactions, args=()).start()
+
     def create_id(self):
         return len(self.players)
 
@@ -39,17 +46,12 @@ class Map:
             if not self.someone_contains(point):  # no one contains the point
                 return point
 
-    def __init__(self, radios=Constants.MAP_RADIOS):
-        self.points = create_random_points()
-        self.radios = radios
-        self.players = []
-
     def create_new_player(self):
-        player = Player(spawn_point=self.create_spawn_point(), player_id=self.create_id(), color=0)  # TODO - color
+        player = Player(spawn_point=Point(0, 0), player_id=self.create_id(), color=0)  # TODO - color
         self.players.append(player)
         return player
 
-    def exec_instructions(self, client, player, player_instructions):
+    def exec_instructions(self, player, player_instructions):
         dup, mouse_vector = player_instructions
         if dup:
             player.duplicate(mouse_vector, self.radios)
@@ -57,7 +59,8 @@ class Map:
             player.move(mouse_vector, self.radios)
 
     def player_interactions(self):
-        pass
+        while True:
+            pass
 
     def to_string(self):
         for player in self.players:
