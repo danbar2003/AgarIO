@@ -60,7 +60,28 @@ class Map:
 
     def player_interactions(self):
         while True:
-            pass
+            # player v player
+            for player in self.players:
+                for circle in player.circles:
+                    for enemy_player in self.players:
+                        if enemy_player == player:
+                            continue
+                        for enemy_circle in enemy_player.circles:
+                            if circle.contains(enemy_circle):
+                                circle.circle_radios += enemy_circle.radios
+                                enemy_player.circles.remove(enemy_circle)
+            # player v world
+            for player in self.players:
+                for circle in player.circles:
+                    for point in self.points:
+                        if circle.contains(point):
+                            circle.circle_radios += 1
+                            self.points.remove(point)
+
+            # update players speed
+            for player in self.players:
+                # TODO - more work here!!!
+                pass
 
     def to_string(self):
         for player in self.players:
