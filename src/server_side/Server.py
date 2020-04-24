@@ -19,6 +19,8 @@ def to_string(main_player, players_lst, points_lst):
     points_info = []
     for point in points_lst:
         points_info.append(f"({point.x, point.y})")
+    print(len(
+        f"(main_player={main_player.info_str()}| enemy_players={enemy_players_info}| points={points_info})".encode()))
     return f"(main_player={main_player.info_str()}| enemy_players={enemy_players_info}| points={points_info})"
 
 
@@ -68,14 +70,14 @@ class Server:
                 player = self.clients[client_socket]
                 world.exec_instructions(player=player, player_instructions=(dup, Point(x, y)))
             except Exception:
-                pass
+                print('error')
 
     def share_data_to_clients(self):
         while True:
-            for client in self.clients:
+            for client in self.clients.copy():
                 client.send(to_string(main_player=self.clients[client], players_lst=world.players,
                                       points_lst=world.points).encode())
-            time.sleep(0.0001)
+            time.sleep(0.01)
 
 
 def main():

@@ -27,13 +27,12 @@ class Client:
                 self.client_socket.send(' dup {}'.format(pyautogui.position()).encode())
             else:  # normal movement
                 self.client_socket.send(str(pyautogui.position()).encode())
-            time.sleep(0.0001)
+            time.sleep(0.01)
 
     def receive_world_info(self):
         while True:
             data = self.client_socket.recv(1024 ** 2).decode()
-            print(data)
-            time.sleep(10)
+            print('main_player' in data)
 
 def main():
     client = Client(host_ip="127.0.0.1", port=9871)
