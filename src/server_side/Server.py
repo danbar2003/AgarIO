@@ -70,7 +70,9 @@ class Server:
                 player = self.clients[client_socket]
                 world.exec_instructions(player=player, player_instructions=(dup, Point(x, y)))
             except Exception:
+                del self.clients[client_socket]
                 print('error')
+                break
 
     def share_data_to_clients(self):
         while True:
