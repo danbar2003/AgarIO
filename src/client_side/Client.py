@@ -1,6 +1,7 @@
 import socket
 import pyautogui
 import time
+import threading
 
 BUFFER = []
 
@@ -15,8 +16,10 @@ class Client:
         self.port = port
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.connect((self.ip, self.port))
+        threading.Thread(target=self.send_instructions, args=()).start()
+        threading.Thread(target=self.receive_world_info, args=()).start()
 
-    def send_data(self):
+    def send_instructions(self):
         # TODO if user not in window
         while True:  # user in window
             # if user pressed on something -> duplicate
@@ -26,10 +29,13 @@ class Client:
                 self.client_socket.send(str(pyautogui.position()).encode())
         time.sleep(0.0001)
 
+    def receive_world_info(self):
+        while True:
+            print(self.client_socket.recv(1024).decode())
+            time.sleep(5)
 
 def main():
     client = Client(host_ip="127.0.0.1", port=9871)
-    client.send_data()
 
 
 if __name__ == '__main__':

@@ -45,3 +45,9 @@ class Player:
         print('player_id', self.player_id)
         for circle in self.circles:
             circle.to_string()
+
+    def info_str(self):
+        circles = []
+        for circle in self.circles:
+            circles.append(circle.info_str())
+        return f"Player(player_id={self.player_id}, color={self.color}, speed={self.speed}, circles={circles})"

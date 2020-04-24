@@ -26,3 +26,6 @@ class Circle:
         print('        circle coordinate', self.point_coordinate.x, self.point_coordinate.y)
         print('        circle radios', self.circle_radios)
 
+    def info_str(self):
+        return f"Circle(coordinate=({self.point_coordinate.x},{self.point_coordinate.y}), " \
+               f"circle_id={self.circle_id}, circle_radios={self.circle_radios})"

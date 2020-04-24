@@ -9,6 +9,18 @@ SERVER_IP = '127.0.0.1'  # socket.gethostbyname(socket.gethostname())
 world = Map()
 
 
+def to_string(main_player, players_lst, points_lst):
+    enemy_players_info = []
+    for player in players_lst:
+        if player == main_player:
+            continue
+        enemy_players_info.append(player.info_str())
+    points_info = []
+    for point in points_lst:
+        points_info.append(f"({point.x, point.y})")
+    return f"main_player={main_player.info_str()}, enemy_players={enemy_players_info}, points={points_info}"
+
+
 class Server:
 
     def __init__(self, ip, port):
@@ -19,6 +31,7 @@ class Server:
         self.server_socket.bind((self.ip, self.port))
         self.server_socket.listen(1)
         self.clients = {}
+        threading.Thread(target=self.share_data_to_clients, args=()).start()
         print(f"server is listening \n server_ip:{SERVER_IP} \n port:{self.port}")
 
     def accept(self):
@@ -57,8 +70,10 @@ class Server:
                 pass
 
     def share_data_to_clients(self):
-        pass
-
+        while True:
+            for client in self.clients:
+                client.send(to_string(main_player=self.clients[client], players_lst=world.players,
+                                                    points_lst=world.points).encode())
 
 
 def main():
