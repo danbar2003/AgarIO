@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 
 from server_side.engine.game.Map import Map
 from server_side.engine.game.Point import Point
@@ -18,7 +19,7 @@ def to_string(main_player, players_lst, points_lst):
     points_info = []
     for point in points_lst:
         points_info.append(f"({point.x, point.y})")
-    return f"main_player={main_player.info_str()}, enemy_players={enemy_players_info}, points={points_info}"
+    return f"(main_player={main_player.info_str()}| enemy_players={enemy_players_info}| points={points_info})"
 
 
 class Server:
@@ -54,7 +55,7 @@ class Server:
             :return: (Boolean, mouse_loc) boolean - dup or not 
             """
             try:
-                data = client_socket.recv(RECEIVE_SIZE * 32).decode()
+                data = client_socket.recv(RECEIVE_SIZE ** 2).decode()
 
                 dup = False
                 if 'dup' in data:
@@ -73,7 +74,8 @@ class Server:
         while True:
             for client in self.clients:
                 client.send(to_string(main_player=self.clients[client], players_lst=world.players,
-                                                    points_lst=world.points).encode())
+                                      points_lst=world.points).encode())
+            time.sleep(0.0001)
 
 
 def main():
