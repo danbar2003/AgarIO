@@ -75,7 +75,6 @@ class Server:
             for client in self.clients:
                 client.send(to_string(main_player=self.clients[client], players_lst=world.players,
                                       points_lst=world.points).encode())
-            time.sleep(0.0001)
 
 
 def main():
