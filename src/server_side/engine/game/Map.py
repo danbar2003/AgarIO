@@ -1,6 +1,6 @@
 import random
 import threading
-import time
+import math
 
 from server_side.engine.game import Constants
 from server_side.engine.game.Point import Point
@@ -11,8 +11,10 @@ def create_random_points():
     list_of_points = []
     for i in range(-Constants.MAP_RADIOS, Constants.MAP_RADIOS):
         x = random.randint(-Constants.MAP_RADIOS, Constants.MAP_RADIOS)
-        y = random.randint(-Constants.MAP_RADIOS, Constants.MAP_RADIOS)
-        list_of_points.append(Point(x, y))
+        height = int(math.sqrt((Constants.MAP_RADIOS ** 2) - (x ** 2)))
+        y = random.randint(-height, height)
+        if random.random() < Constants.POINTS_DENSITY:
+            list_of_points.append(Point(x, y))
     return list_of_points
 
 
