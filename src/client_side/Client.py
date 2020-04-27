@@ -3,8 +3,6 @@ import pyautogui
 import time
 import threading
 
-BUFFER = []
-
 
 def is_pressing():
     pass
@@ -31,8 +29,10 @@ class Client:
 
     def receive_world_info(self):
         while True:
+            start_time = time.time()
             data = self.client_socket.recv(1024 ** 2).decode()
-            print('main_player' in data)
+            print('FPS:', 1 / (time.time() - start_time))
+
 
 def main():
     client = Client(host_ip="127.0.0.1", port=9871)

@@ -1,5 +1,6 @@
 import random
 import threading
+import time
 
 from server_side.engine.game import Constants
 from server_side.engine.game.Point import Point
@@ -75,7 +76,7 @@ class Map:
                 for circle in player.circles:
                     for point in self.points:
                         if circle.contains(point):
-                            circle.circle_radios += 1 # TODO
+                            circle.circle_radios += 1  # TODO
                             self.points.remove(point)
 
             # update players speed

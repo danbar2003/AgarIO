@@ -19,8 +19,6 @@ def to_string(main_player, players_lst, points_lst):
     points_info = []
     for point in points_lst:
         points_info.append(f"({point.x, point.y})")
-    print(len(
-        f"(main_player={main_player.info_str()}| enemy_players={enemy_players_info}| points={points_info})".encode()))
     return f"(main_player={main_player.info_str()}| enemy_players={enemy_players_info}| points={points_info})"
 
 
@@ -57,6 +55,7 @@ class Server:
             :return: (Boolean, mouse_loc) boolean - dup or not 
             """
             try:
+
                 data = client_socket.recv(RECEIVE_SIZE ** 2).decode()
 
                 dup = False
@@ -84,7 +83,8 @@ class Server:
 
 def main():
     server = Server(ip=SERVER_IP, port=9871)
-    threading.Thread(target=server.accept, args=()).start()
+    server.accept()
+    # threading.Thread(target=server.accept, args=()).start()
     # while True:
     # world.to_string()
 
