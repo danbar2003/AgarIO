@@ -1,5 +1,6 @@
 import random
 import threading
+import math
 
 from server_side.engine.game import Constants
 from server_side.engine.game.Point import Point
@@ -10,8 +11,10 @@ def create_random_points():
     list_of_points = []
     for i in range(-Constants.MAP_RADIOS, Constants.MAP_RADIOS):
         x = random.randint(-Constants.MAP_RADIOS, Constants.MAP_RADIOS)
-        y = random.randint(-Constants.MAP_RADIOS, Constants.MAP_RADIOS)
-        list_of_points.append(Point(x, y))
+        height = int(math.sqrt((Constants.MAP_RADIOS ** 2) - (x ** 2)))
+        y = random.randint(-height, height)
+        if random.random() < Constants.POINTS_DENSITY:
+            list_of_points.append(Point(x, y))
     return list_of_points
 
 
@@ -67,15 +70,15 @@ class Map:
                         if enemy_player == player:
                             continue
                         for enemy_circle in enemy_player.circles:
-                            if circle.contains(enemy_circle):
-                                circle.circle_radios += enemy_circle.radios
+                            if circle.contains(enemy_circle.point_coordinate):
+                                circle.circle_radios += enemy_circle.circe_radios
                                 enemy_player.circles.remove(enemy_circle)
             # player v world
             for player in self.players:
                 for circle in player.circles:
                     for point in self.points:
                         if circle.contains(point):
-                            circle.circle_radios += 1
+                            circle.circle_radios += 1  # TODO
                             self.points.remove(point)
 
             # update players speed
