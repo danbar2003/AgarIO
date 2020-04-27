@@ -3,7 +3,7 @@ import pyautogui
 import time
 import threading
 
-a = 0
+BUFFER = []
 
 
 def is_pressing():
@@ -27,32 +27,15 @@ class Client:
                 self.client_socket.send(' dup {}'.format(pyautogui.position()).encode())
             else:  # normal movement
                 self.client_socket.send(str(pyautogui.position()).encode())
-            time.sleep(0.0001)
+            time.sleep(0.01)
 
     def receive_world_info(self):
-        msg = ''
-        next_msg = ''
         while True:
             data = self.client_socket.recv(1024 ** 2).decode()
-            if '$$' in data:
-                lst = data.split('$$')
-                msg += lst[0]
-                next_msg = lst[1]
-                display_gui(msg)
-                msg = next_msg
-            else:
-                msg += data
-
-
-def display_gui(frame):
-    global a
-    print(a)
-    a += 1
-    print(len(frame))
-
+            print('main_player' in data)
 
 def main():
-    client = Client(host_ip="192.168.0.138", port=9871)
+    client = Client(host_ip="127.0.0.1", port=9871)
 
 
 if __name__ == '__main__':

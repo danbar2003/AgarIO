@@ -67,15 +67,15 @@ class Map:
                         if enemy_player == player:
                             continue
                         for enemy_circle in enemy_player.circles:
-                            if circle.contains(enemy_circle):
-                                circle.circle_radios += enemy_circle.radios
+                            if circle.contains(enemy_circle.point_coordinate):
+                                circle.circle_radios += enemy_circle.circe_radios
                                 enemy_player.circles.remove(enemy_circle)
             # player v world
             for player in self.players:
                 for circle in player.circles:
                     for point in self.points:
                         if circle.contains(point):
-                            circle.circle_radios += 1
+                            circle.circle_radios += 1 # TODO
                             self.points.remove(point)
 
             # update players speed
