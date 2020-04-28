@@ -7,11 +7,12 @@ CENTER = Point(0, 0)
 
 class Player:
 
-    def __init__(self, spawn_point, player_id, color):  # etc
+    def __init__(self, spawn_point, player_id, color, resolution):  # etc
         self.player_id = player_id  # id
         self.color = color  # color
-        self.speed = 10
+        self.speed = 1
         self.circles = []
+        self.resolution = resolution
         self.circles.append(Circle(point_coordinate=spawn_point, circle_id=0))
 
     def hypothesis_circles_locations(self, vector):
@@ -21,7 +22,7 @@ class Player:
         return locations
 
     def create_vector(self, mouse_vector):  # vector = Point
-        base_point = self.circles[0].point_coordinate
+        base_point = Point(self.resolution[0] / 2, self.resolution[1] / 2)
         vector = Point(mouse_vector.x - base_point.x, mouse_vector.y - base_point.y)
         size = vector.distance(Point(0, 0))
         vector.x, vector.y = (self.speed / size) * vector.x, (self.speed / size) * vector.y

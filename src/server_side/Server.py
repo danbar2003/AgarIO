@@ -36,14 +36,15 @@ class Server:
         while True:
             client_socket, client_address = self.server_socket.accept()
             print("someone joined")
-            self.clients[client_socket] = world.create_new_player()
             threading.Thread(target=self.execute_client_instructions, args=(client_socket,)).start()
 
     def execute_client_instructions(self, client_socket):  # conversation with client
+        width, height = (client_socket.recv(RECEIVE_SIZE).decode()).split('x')
+        width, height = int(width), int(height)
+        self.clients[client_socket] = world.create_new_player((width, height))
         while True:
             try:
                 data = client_socket.recv(RECEIVE_SIZE ** 2).decode()
-
                 dup = False
                 if 'dup' in data:
                     dup = True
@@ -62,17 +63,15 @@ class Server:
     def share_data_to_clients(self):
         while True:
             if len(self.clients) > 0:
-                start_time = time.time()
-
                 points_info = []
                 for point in world.points:
                     points_info.append(f"({point.x, point.y})")
-                print(time.time() - start_time)
-
+                start_time = time.time()
                 for client in self.clients.copy():
                     client.send(to_string(main_player=self.clients[client], players_lst=world.players,
                                           points_info=points_info).encode())
-
+                print(time.time() - start_time)
+                
 
 def main():
     server = Server(ip=SERVER_IP, port=765)

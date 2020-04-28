@@ -14,6 +14,9 @@ class Client:
         self.port = port
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client_socket.connect((self.ip, self.port))
+        width, height = pyautogui.size()
+        self.client_socket.send(f'{width}x{height}'.encode())  # res
+        time.sleep(1)
         threading.Thread(target=self.send_instructions, args=()).start()
         threading.Thread(target=self.receive_world_info, args=()).start()
 
@@ -22,14 +25,13 @@ class Client:
         while True:  # user in window
             # if user pressed on something -> duplicate
             if is_pressing():
-                self.client_socket.send(' dup {}'.format(pyautogui.position()).encode())
+                self.client_socket.send('dup {}'.format(pyautogui.position()).encode())
             else:  # normal movement
                 self.client_socket.send(str(pyautogui.position()).encode())
             time.sleep(0.01)
 
     def receive_world_info(self):
         while True:
-            start_time = time.time()
             msg = ''
             next_msg = ''
             data = self.client_socket.recv(1024 ** 2).decode()
@@ -37,7 +39,6 @@ class Client:
                 lst = data.split('$$')
                 msg += lst[0]
                 next_msg = lst[0]
-                print(1 / (time.time() - start_time + 0.000001))
                 display_data(msg)
                 msg = next_msg
             else:
@@ -45,7 +46,7 @@ class Client:
 
 
 def display_data(frame):
-    pass
+    print(frame)
 
 
 def main():

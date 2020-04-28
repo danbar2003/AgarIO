@@ -9,12 +9,12 @@ from server_side.engine.game.Player import Player
 
 def create_random_points():
     list_of_points = []
-    for i in range(-Constants.MAP_RADIOS, Constants.MAP_RADIOS):
+    for i in range(Constants.NUM_OF_POINTS):
         x = random.randint(-Constants.MAP_RADIOS, Constants.MAP_RADIOS)
         height = int(math.sqrt((Constants.MAP_RADIOS ** 2) - (x ** 2)))
         y = random.randint(-height, height)
-        if random.random() < Constants.POINTS_DENSITY:
-            list_of_points.append(Point(x, y))
+        list_of_points.append(Point(x, y))
+
     return list_of_points
 
 
@@ -49,8 +49,8 @@ class Map:
             if not self.someone_contains(point):  # no one contains the point
                 return point
 
-    def create_new_player(self):
-        player = Player(spawn_point=Point(0, 0), player_id=self.create_id(), color=0)  # TODO - color
+    def create_new_player(self, res):
+        player = Player(spawn_point=Point(0, 0), player_id=self.create_id(), color=0, resolution=res)  # TODO - color
         self.players.append(player)
         return player
 
@@ -71,6 +71,7 @@ class Map:
                             continue
                         for enemy_circle in enemy_player.circles:
                             if circle.contains(enemy_circle.point_coordinate):
+                                print('true')
                                 circle.circle_radios += enemy_circle.circe_radios
                                 enemy_player.circles.remove(enemy_circle)
             # player v world
