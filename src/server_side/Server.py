@@ -8,6 +8,7 @@ from server_side.engine.game.Point import Point
 RECEIVE_SIZE = 1024
 SERVER_IP = '127.0.0.1'  # socket.gethostbyname(socket.gethostname())
 world = Map()
+msg_num = 0
 
 
 def to_string(main_player, players_lst, points_info):
@@ -16,7 +17,7 @@ def to_string(main_player, players_lst, points_info):
         if player == main_player:
             continue
         enemy_players_info.append(player.info_str())
-    return f"(main_player={main_player.info_str()}|enemy_players={enemy_players_info}|points={points_info})$$"
+    return f"({main_player.info_str()}|{enemy_players_info}|{points_info})$$"
 
 
 class Server:
@@ -61,17 +62,18 @@ class Server:
                 break
 
     def share_data_to_clients(self):
+        global msg_num
         while True:
             if len(self.clients) > 0:
                 points_info = []
                 for point in world.points:
                     points_info.append(f"({point.x, point.y})")
-                start_time = time.time()
+
                 for client in self.clients.copy():
                     client.send(to_string(main_player=self.clients[client], players_lst=world.players,
                                           points_info=points_info).encode())
-                print(time.time() - start_time)
-                
+            time.sleep(0.001)
+
 
 def main():
     server = Server(ip=SERVER_IP, port=765)

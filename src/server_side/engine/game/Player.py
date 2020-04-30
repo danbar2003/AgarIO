@@ -48,7 +48,10 @@ class Player:
             circle.to_string()
 
     def info_str(self):
+        """
+        :return:color#lst of circles
+        """
         circles = []
         for circle in self.circles:
             circles.append(circle.info_str())
-        return f"Player(player_id={self.player_id}, color={self.color}, speed={self.speed}, circles={circles})"
+        return f"{self.color}#{circles}"

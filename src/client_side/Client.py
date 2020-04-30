@@ -3,6 +3,8 @@ import pyautogui
 import time
 import threading
 
+msg_num = 0
+
 
 def is_pressing():
     pass
@@ -18,7 +20,6 @@ class Client:
         self.client_socket.send(f'{width}x{height}'.encode())  # res
         time.sleep(1)
         threading.Thread(target=self.send_instructions, args=()).start()
-        threading.Thread(target=self.receive_world_info, args=()).start()
 
     def send_instructions(self):
         # TODO if user not in window
@@ -31,14 +32,17 @@ class Client:
             time.sleep(0.01)
 
     def receive_world_info(self):
+        msg = ''
         while True:
-            msg = ''
-            next_msg = ''
             data = self.client_socket.recv(1024 ** 2).decode()
             if '$$' in data:
                 lst = data.split('$$')
-                msg += lst[0]
-                next_msg = lst[0]
+                if len(lst) > 2:
+                    msg += lst[len(lst) - 2]
+                    next_msg = lst[len(lst) - 1]
+                else:
+                    msg += lst[0]
+                    next_msg = lst[1]
                 display_data(msg)
                 msg = next_msg
             else:
@@ -51,6 +55,7 @@ def display_data(frame):
 
 def main():
     client = Client(host_ip="127.0.0.1", port=765)
+    client.receive_world_info()
 
 
 if __name__ == '__main__':

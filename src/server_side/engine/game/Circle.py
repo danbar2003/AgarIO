@@ -5,7 +5,7 @@ class Circle:
     def __init__(self, point_coordinate, circle_id):
         self.point_coordinate = point_coordinate  # Point(x,y)
         self.circle_id = circle_id
-        self.circle_radios = 5
+        self.circle_radios = 1
 
     def duplicate_circle(self, vector_point):
         pass
@@ -27,5 +27,7 @@ class Circle:
         print('        circle radios', self.circle_radios)
 
     def info_str(self):
-        return f"Circle(coordinate=({self.point_coordinate.x},{self.point_coordinate.y}), " \
-               f"circle_id={self.circle_id}, circle_radios={self.circle_radios})"
+        """
+        :return:location!radios
+        """
+        return f"({self.point_coordinate.x},{self.point_coordinate.y})!{self.circle_radios})"
