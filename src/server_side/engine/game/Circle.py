@@ -30,4 +30,4 @@ class Circle:
         """
         :return:location!radios
         """
-        return f"({self.point_coordinate.x},{self.point_coordinate.y})!{self.circle_radios})"
+        return f"({self.point_coordinate.x}:{self.point_coordinate.y})!{self.circle_radios})"

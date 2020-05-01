@@ -38,7 +38,7 @@ class Client:
             if '$$' in data:
                 lst = data.split('$$')
                 if len(lst) > 2:
-                    msg += lst[len(lst) - 2]
+                    msg += lst[0]
                     next_msg = lst[len(lst) - 1]
                 else:
                     msg += lst[0]
