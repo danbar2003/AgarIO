@@ -2,6 +2,7 @@ import socket
 import pyautogui
 import time
 import threading
+import pygame
 
 msg_num = 0
 
@@ -43,18 +44,62 @@ class Client:
                 else:
                     msg += lst[0]
                     next_msg = lst[1]
-                display_data(msg)
+                convert_str_to_data(msg)
                 msg = next_msg
             else:
                 msg += data
 
 
-def display_data(frame):
-    print(frame)
+def convert_str_to_data(frame):
+    start_time = time.time()
+    main_player, enemy_players, points = frame.split('|')
+    color, circles = main_player.split('#')
+    color = float(color[1:])
+    circles = remove_chars(circles, ["[", "]", "'", "(", ")", " "])
+    main_player = []
+    for circle in circles.split(','):
+        coordinate, radios = circle.split('!')
+        x, y = coordinate.split(':')
+        main_player.append(((float(x), float(y)), float(radios)))
+    main_player = (color, main_player)
+
+    enemy_players_info = []
+    for enemy_player in enemy_players.split('"'):
+        if ':' in enemy_player:
+            color, circles = enemy_player.split('#')
+            circles = remove_chars(circles, ["[", "]", "'", "(", ")", " "])
+            enemy_player = []
+            for circle in circles.split(','):
+                coordinate, radios = circle.split('!')
+                x, y = coordinate.split(':')
+                enemy_player.append(((float(x), float(y)), float(radios)))
+            enemy_players_info.append((color, enemy_player))
+    points_info = []
+    for point in points.split(','):
+        point = remove_chars(point, ["'", "(", ")", "[", "]"])
+        x, y = point.split('X')
+        points_info.append((float(x), float(y)))
+    print(time.time() - start_time)
+
+
+def display_data(main_player, enemy_players, points):
+    """
+    :param main_player: (color, [((x,y),radios), (x,y),radios), (x,y),radios),...])
+    :param enemy_players: [(color,[((x,y),radios)]), (color,[((x,y),radios)]),...]
+    :param points:[(x,y), (x,y), (x,y),...]
+    :raises GUI
+    """
+
+
+
+def remove_chars(str_data, str_lst):
+    for str_part in str_lst:
+        str_data = str_data.replace(str_part, "")
+    return str_data
 
 
 def main():
-    client = Client(host_ip="127.0.0.1", port=765)
+    client = Client(host_ip="192.168.0.133", port=777)
     client.receive_world_info()
 
 
