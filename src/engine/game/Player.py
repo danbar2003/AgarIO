@@ -1,6 +1,5 @@
-from server_side.engine.game.Circle import Circle
-from server_side.engine.game.Point import Point
-import math
+from engine.game.Circle import Circle
+from engine.game.Point import Point
 
 CENTER = Point(0, 0)
 

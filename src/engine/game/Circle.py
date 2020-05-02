@@ -1,4 +1,4 @@
-from server_side.engine.game.Point import Point
+from engine.game.Point import Point
 
 
 class Circle:

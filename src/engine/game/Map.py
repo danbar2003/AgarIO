@@ -2,9 +2,9 @@ import random
 import threading
 import math
 
-from server_side.engine.game import Constants
-from server_side.engine.game.Point import Point
-from server_side.engine.game.Player import Player
+from engine.game import Constants
+from engine.game.Point import Point
+from engine.game.Player import Player
 
 
 def create_random_points():

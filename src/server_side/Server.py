@@ -2,8 +2,8 @@ import socket
 import threading
 import time
 
-from server_side.engine.game.Map import Map
-from server_side.engine.game.Point import Point
+from engine.game.Map import Map
+from engine.game.Point import Point
 
 RECEIVE_SIZE = 1024
 SERVER_IP = socket.gethostbyname(socket.gethostname())
