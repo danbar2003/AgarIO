@@ -18,7 +18,6 @@ class Client:
         width, height = pyautogui.size()
         self.client_socket.send(f'{width}x{height}'.encode())  # res
         self.gui_window = WindowGui(width, height)
-        time.sleep(1)
         threading.Thread(target=self.send_instructions, args=()).start()
 
     def send_instructions(self):
@@ -51,10 +50,12 @@ class Client:
 
 
 def convert_str_to_data(frame):
+    #TODO - debug
     main_player, enemy_players, points = frame.split('|')
     color, circles = main_player.split('#')
-    print(color)
-    color = float(color[1:])
+    color = remove_chars(color, ["(", ")", " "])
+    r, g, b = color.split(",")
+    color = (int(r), int(g), int(b))
     circles = remove_chars(circles, ["[", "]", "'", "(", ")", " "])
     main_player = []
     for circle in circles.split(','):
