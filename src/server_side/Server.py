@@ -6,7 +6,7 @@ from server_side.engine.game.Map import Map
 from server_side.engine.game.Point import Point
 
 RECEIVE_SIZE = 1024
-SERVER_IP = '127.0.0.1'  # socket.gethostbyname(socket.gethostname())
+SERVER_IP = socket.gethostbyname(socket.gethostname())
 world = Map()
 msg_num = 0
 
@@ -67,8 +67,7 @@ class Server:
             if len(self.clients) > 0:
                 points_info = []
                 for point in world.points:
-                    points_info.append(f"({point.x, point.y})")
-
+                    points_info.append(f"({point.x}X{point.y})")
                 for client in self.clients.copy():
                     client.send(to_string(main_player=self.clients[client], players_lst=world.players,
                                           points_info=points_info).encode())
@@ -76,7 +75,7 @@ class Server:
 
 
 def main():
-    server = Server(ip=SERVER_IP, port=765)
+    server = Server(ip=SERVER_IP, port=777)
     server.accept()
 
 
