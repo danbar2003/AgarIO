@@ -43,10 +43,21 @@ class Client:
                 else:
                     msg += lst[0]
                     next_msg = lst[1]
-                convert_str_to_data(msg)
+                main_player, enemy_players_info, points_info = convert_str_to_data(msg)
+                self.calculate_fov(main_player, enemy_players_info, points_info)
                 msg = next_msg
             else:
                 msg += data
+
+    def calculate_fov(self, main_player, enemy_players, points):
+        """
+        This function calculates the field of view the client can see
+        :param main_player: (color, [((x,y),radios), (x,y),radios), (x,y),radios),...])
+        :param enemy_players: [(color,[((x,y),radios)]), (color,[((x,y),radios)]),...]
+        :param points:[(x,y), (x,y), (x,y),...]
+        :raises Gui function with list of circles to print
+        """
+        pass
 
 
 def convert_str_to_data(frame):
@@ -77,17 +88,7 @@ def convert_str_to_data(frame):
         point = remove_chars(point, ["'", "(", ")", "[", "]"])
         x, y = point.split('X')
         points_info.append((float(x), float(y)))
-
-
-def calculate_fov(main_player, enemy_players, points):
-    """
-    This function calculates the field of view the client can see
-    :param main_player: (color, [((x,y),radios), (x,y),radios), (x,y),radios),...])
-    :param enemy_players: [(color,[((x,y),radios)]), (color,[((x,y),radios)]),...]
-    :param points:[(x,y), (x,y), (x,y),...]
-    :raises Gui function with list of circles to print
-    """
-    pass
+    return main_player, enemy_players_info, points_info
 
 
 def remove_chars(str_data, str_lst):
