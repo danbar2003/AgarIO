@@ -1,10 +1,8 @@
 import socket
-import pyautogui
 import time
+import pyautogui
 import threading
-import pygame
-
-msg_num = 0
+from client_side.gui.WindowGui import WindowGui
 
 
 def is_pressing():
@@ -19,6 +17,7 @@ class Client:
         self.client_socket.connect((self.ip, self.port))
         width, height = pyautogui.size()
         self.client_socket.send(f'{width}x{height}'.encode())  # res
+        self.gui_window = WindowGui()
         time.sleep(1)
         threading.Thread(target=self.send_instructions, args=()).start()
 
@@ -51,7 +50,6 @@ class Client:
 
 
 def convert_str_to_data(frame):
-    start_time = time.time()
     main_player, enemy_players, points = frame.split('|')
     color, circles = main_player.split('#')
     color = float(color[1:])
@@ -79,17 +77,17 @@ def convert_str_to_data(frame):
         point = remove_chars(point, ["'", "(", ")", "[", "]"])
         x, y = point.split('X')
         points_info.append((float(x), float(y)))
-    print(time.time() - start_time)
 
 
-def display_data(main_player, enemy_players, points):
+def calculate_fov(main_player, enemy_players, points):
     """
+    This function calculates the field of view the client can see
     :param main_player: (color, [((x,y),radios), (x,y),radios), (x,y),radios),...])
     :param enemy_players: [(color,[((x,y),radios)]), (color,[((x,y),radios)]),...]
     :param points:[(x,y), (x,y), (x,y),...]
-    :raises GUI
+    :raises Gui function with list of circles to print
     """
-
+    pass
 
 
 def remove_chars(str_data, str_lst):
