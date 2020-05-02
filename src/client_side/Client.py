@@ -17,7 +17,7 @@ class Client:
         self.client_socket.connect((self.ip, self.port))
         width, height = pyautogui.size()
         self.client_socket.send(f'{width}x{height}'.encode())  # res
-        self.gui_window = WindowGui()
+        self.gui_window = WindowGui(width, height)
         time.sleep(1)
         threading.Thread(target=self.send_instructions, args=()).start()
 
@@ -44,25 +44,16 @@ class Client:
                     msg += lst[0]
                     next_msg = lst[1]
                 main_player, enemy_players_info, points_info = convert_str_to_data(msg)
-                self.calculate_fov(main_player, enemy_players_info, points_info)
+                self.gui_window.calculate_fov(main_player, enemy_players_info, points_info)
                 msg = next_msg
             else:
                 msg += data
-
-    def calculate_fov(self, main_player, enemy_players, points):
-        """
-        This function calculates the field of view the client can see
-        :param main_player: (color, [((x,y),radios), (x,y),radios), (x,y),radios),...])
-        :param enemy_players: [(color,[((x,y),radios)]), (color,[((x,y),radios)]),...]
-        :param points:[(x,y), (x,y), (x,y),...]
-        :raises Gui function with list of circles to print
-        """
-        pass
 
 
 def convert_str_to_data(frame):
     main_player, enemy_players, points = frame.split('|')
     color, circles = main_player.split('#')
+    print(color)
     color = float(color[1:])
     circles = remove_chars(circles, ["[", "]", "'", "(", ")", " "])
     main_player = []
