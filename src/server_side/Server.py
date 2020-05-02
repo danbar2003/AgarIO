@@ -50,6 +50,7 @@ class Server:
                 if 'dup' in data:
                     dup = True
                 lst = data.split('Point')
+                print(lst)
                 point_str = lst[len(lst) - 1]
                 x_str, y_str = point_str.split(',')
                 x = int(x_str.split('=')[1])
@@ -57,7 +58,6 @@ class Server:
                 player = self.clients[client_socket]
                 world.exec_instructions(player=player, player_instructions=(dup, Point(x, y)))
             except Exception:
-                del self.clients[client_socket]
                 print('error')
                 break
 
