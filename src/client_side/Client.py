@@ -17,6 +17,7 @@ class Client:
         self.client_socket.connect((self.ip, self.port))
         width, height = pyautogui.size()
         self.client_socket.send(f'{width}x{height}'.encode())  # res
+        time.sleep(1)
         self.gui_window = WindowGui(width, height)
         threading.Thread(target=self.send_instructions, args=()).start()
 
@@ -25,7 +26,7 @@ class Client:
         while True:  # user in window
             # if user pressed on something -> duplicate
             if is_pressing():
-                self.client_socket.send('dup {}'.format(pyautogui.position()).encode())
+                self.client_socket.send('dup{}'.format(pyautogui.position()).encode())
             else:  # normal movement
                 self.client_socket.send(str(pyautogui.position()).encode())
             time.sleep(0.01)
@@ -42,50 +43,13 @@ class Client:
                 else:
                     msg += lst[0]
                     next_msg = lst[1]
-                main_player, enemy_players_info, points_info = convert_str_to_data(msg)
-                self.gui_window.calculate_fov(main_player, enemy_players_info, points_info)
+                self.gui_window.print_data(msg)
                 msg = next_msg
             else:
                 msg += data
 
 
-def convert_str_to_data(frame):
-    main_player, enemy_players, points = frame.split('|')
-    color, circles = main_player.split('#')
-    color = remove_chars(color, ["(", ")", " "])
-    r, g, b = color.split(",")
-    color = (int(r), int(g), int(b))
-    circles = remove_chars(circles, ["[", "]", "'", "(", ")", " "])
-    main_player = []
-    for circle in circles.split(','):
-        coordinate, radios = circle.split('!')
-        x, y = coordinate.split(':')
-        main_player.append(((float(x), float(y)), float(radios)))
-    main_player = (color, main_player)
 
-    enemy_players_info = []
-    for enemy_player in enemy_players.split('"'):
-        if ':' in enemy_player:
-            color, circles = enemy_player.split('#')
-            circles = remove_chars(circles, ["[", "]", "'", "(", ")", " "])
-            enemy_player = []
-            for circle in circles.split(','):
-                coordinate, radios = circle.split('!')
-                x, y = coordinate.split(':')
-                enemy_player.append(((float(x), float(y)), float(radios)))
-            enemy_players_info.append((color, enemy_player))
-    points_info = []
-    for point in points.split(','):
-        point = remove_chars(point, ["'", "(", ")", "[", "]"])
-        x, y = point.split('X')
-        points_info.append((float(x), float(y)))
-    return main_player, enemy_players_info, points_info
-
-
-def remove_chars(str_data, str_lst):
-    for str_part in str_lst:
-        str_data = str_data.replace(str_part, "")
-    return str_data
 
 
 def main():
