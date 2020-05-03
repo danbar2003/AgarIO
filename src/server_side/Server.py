@@ -50,7 +50,6 @@ class Server:
                 if 'dup' in data:
                     dup = True
                 lst = data.split('Point')
-                print(lst)
                 point_str = lst[len(lst) - 1]
                 x_str, y_str = point_str.split(',')
                 x = int(x_str.split('=')[1])

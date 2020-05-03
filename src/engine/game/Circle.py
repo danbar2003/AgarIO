@@ -5,7 +5,7 @@ class Circle:
     def __init__(self, point_coordinate, circle_id):
         self.point_coordinate = point_coordinate  # Point(x,y)
         self.circle_id = circle_id
-        self.circle_radios = 1
+        self.circle_radios = 30
 
     def duplicate_circle(self, vector_point):
         pass
