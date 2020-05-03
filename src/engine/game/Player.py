@@ -9,11 +9,10 @@ class Player:
     def __init__(self, spawn_point, player_id, color, resolution):  # etc
         self.player_id = player_id  # id
         self.color = color  # color
-        self.speed = 1
+        self.speed = 4
         self.circles = []
         self.resolution = resolution
         self.circles.append(Circle(point_coordinate=spawn_point, circle_id=0))
-        self.circles.append(Circle(point_coordinate=Point(12, 32), circle_id=1))
 
     def hypothesis_circles_locations(self, vector):
         locations = []
