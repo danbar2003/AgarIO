@@ -13,6 +13,7 @@ class Player:
         self.circles = []
         self.resolution = resolution
         self.circles.append(Circle(point_coordinate=spawn_point, circle_id=0))
+        self.circles.append(Circle(point_coordinate=Point(12, 32), circle_id=1))
 
     def hypothesis_circles_locations(self, vector):
         locations = []

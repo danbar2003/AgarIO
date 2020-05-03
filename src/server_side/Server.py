@@ -35,6 +35,7 @@ class Server:
 
     def accept(self):
         while True:
+            time.sleep(2)
             client_socket, client_address = self.server_socket.accept()
             print("someone joined")
             threading.Thread(target=self.execute_client_instructions, args=(client_socket,)).start()
@@ -49,11 +50,15 @@ class Server:
                 dup = False
                 if 'dup' in data:
                     dup = True
+                data = data.replace("dup", "")
                 lst = data.split('Point')
-                point_str = lst[len(lst) - 1]
-                x_str, y_str = point_str.split(',')
-                x = int(x_str.split('=')[1])
-                y = int((y_str.split('=')[1])[:y_str.split('=')[1].find(')')])
+                coordinate = lst[len(lst) - 1]
+                coordinate = coordinate.replace("'", "")
+                coordinate = coordinate.replace("(", "")
+                coordinate = coordinate.replace(")", "")
+                coordinate = coordinate.replace(" ", "")
+                x, y = coordinate.split(',')
+                x, y = int(x[2:]), int(y[2:])
                 player = self.clients[client_socket]
                 world.exec_instructions(player=player, player_instructions=(dup, Point(x, y)))
             except Exception:
