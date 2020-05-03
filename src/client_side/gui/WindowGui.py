@@ -2,6 +2,9 @@ import pygame
 import pyautogui
 import threading
 import math
+import time
+from engine.game.Circle import Circle
+from engine.game.Point import Point
 
 FOV_CONSTANT = 300
 
@@ -27,11 +30,10 @@ class WindowGui:
                 if event.type == pygame.QUIT:
                     run = False
             win.fill((255, 255, 255))  # Fills the screen with white
-            for circle in self.circles.copy():
-                pass
-                # pygame.draw.circle(win, (60, 123, 32), (-32, -32), 1000)
+            """
+            FUCK
+            """
             pygame.display.update()
-
         pygame.quit()
 
     def calculate_fov(self, main_player, enemy_players, points):

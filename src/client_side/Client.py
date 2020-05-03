@@ -50,7 +50,6 @@ class Client:
 
 
 def convert_str_to_data(frame):
-    #TODO - debug
     main_player, enemy_players, points = frame.split('|')
     color, circles = main_player.split('#')
     color = remove_chars(color, ["(", ")", " "])
