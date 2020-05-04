@@ -1,6 +1,5 @@
-from server_side.engine.game.Circle import Circle
-from server_side.engine.game.Point import Point
-import math
+from engine.game.Circle import Circle
+from engine.game.Point import Point
 
 CENTER = Point(0, 0)
 
@@ -10,7 +9,7 @@ class Player:
     def __init__(self, spawn_point, player_id, color, resolution):  # etc
         self.player_id = player_id  # id
         self.color = color  # color
-        self.speed = 1
+        self.speed = 4
         self.circles = []
         self.resolution = resolution
         self.circles.append(Circle(point_coordinate=spawn_point, circle_id=0))
@@ -48,7 +47,10 @@ class Player:
             circle.to_string()
 
     def info_str(self):
+        """
+        :return:color#lst of circles
+        """
         circles = []
         for circle in self.circles:
             circles.append(circle.info_str())
-        return f"Player(player_id={self.player_id}, color={self.color}, speed={self.speed}, circles={circles})"
+        return f"{self.color}#{circles}"
