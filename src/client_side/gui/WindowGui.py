@@ -30,7 +30,7 @@ def convert_str_to_data(frame):
 
     # enemy_players
     for player in enemy_players.split('", "'):
-        if '#' in player:
+        try:
             player_info = remove_chars(player, ["[", "]", '"', "'"])
             color, circles = player_info.split('#')
 
@@ -44,8 +44,10 @@ def convert_str_to_data(frame):
                     circle_info = remove_chars(circles, ["(", ")"])
                     coordinate, radius = circle_info.split('!')
                     x, y = coordinate.split(':')
-                    enemy_circles.append(CircleGUI(coordinate=Point(float(x), float(y)), radius=float(radius), color=color))
-
+                    enemy_circles.append(
+                        CircleGUI(coordinate=Point(float(x), float(y)), radius=float(radius), color=color))
+        except ValueError:
+            pass
     # main_player
     main_player = main_player[1:]
     color, circles = main_player.split('#')
@@ -56,17 +58,23 @@ def convert_str_to_data(frame):
 
     # main_player_circles
     for circle in (remove_chars(circles, ["[", "]", "'", " "])).split(','):
-        circle_info = remove_chars(circle, ["(", ")"])
-        coordinate, radius = circle_info.split('!')
-        x, y = coordinate.split(':')
-        main_player_circles.append(CircleGUI(coordinate=Point(float(x), float(y)), radius=float(radius), color=color))
+        try:
+            circle_info = remove_chars(circle, ["(", ")"])
+            coordinate, radius = circle_info.split('!')
+            x, y = coordinate.split(':')
+            main_player_circles.append(
+                CircleGUI(coordinate=Point(float(x), float(y)), radius=float(radius), color=color))
+        except ValueError:
+            pass
 
     # points
     for point in remove_chars(points, ["[", "]", "'", " "]).split(','):
-        point_info = remove_chars(point, ["(", ")"])
-        x, y = point_info.split('X')
-        points_as_circles.append(CircleGUI(coordinate=Point(float(x), float(y)), radius=5, color=(60, 90, 120)))
-
+        try:
+            point_info = remove_chars(point, ["(", ")"])
+            x, y = point_info.split('X')
+            points_as_circles.append(CircleGUI(coordinate=Point(float(x), float(y)), radius=5, color=(60, 90, 120)))
+        except ValueError:
+            pass
     return main_player_circles, enemy_circles, points_as_circles
 
 
@@ -98,26 +106,29 @@ class WindowGui:
     def calculate_fov(self, frame):
         main_player_circles, enemy_circles, points_as_circles = convert_str_to_data(frame)
         final_circles = []
-        big_radius = 0
-        center = Point(0, 0)
-        for circle in main_player_circles:
-            center.x += circle.coordinate.x
-            center.y += circle.coordinate.y
-            big_radius += circle.radius ** 2
-        center.x, center.y = center.x / len(main_player_circles), center.y / len(main_player_circles)
-        big_radius = math.sqrt(big_radius)
-        y_fov = big_radius + FOV_CONSTANT
-        x_fov = (16 / 9) * y_fov
-        top_left_point = Point(center.x - x_fov, center.y - y_fov)
-        proportion = (self.width / 2) / x_fov
-        main_player_circles += enemy_circles
-        for circle in main_player_circles:
-            final_circles.append(CircleGUI(
-                coordinate=Point(proportion * (circle.coordinate.x - top_left_point.x),
-                                 proportion * (circle.coordinate.y - top_left_point.y)),
-                radius=proportion * circle.radius, color=circle.color))
-        for point in points_as_circles:
-            final_circles.append((CircleGUI(coordinate=Point(proportion * (point.coordinate.x - top_left_point.x),
-                                                             proportion * (point.coordinate.y - top_left_point.y)),
-                                            radius=point.radius, color=point.color)))
+        try:
+            big_radius = 0
+            center = Point(0, 0)
+            for circle in main_player_circles:
+                center.x += circle.coordinate.x
+                center.y += circle.coordinate.y
+                big_radius += circle.radius ** 2
+            center.x, center.y = center.x / len(main_player_circles), center.y / len(main_player_circles)
+            big_radius = math.sqrt(big_radius)
+            y_fov = big_radius + FOV_CONSTANT
+            x_fov = (16 / 9) * y_fov
+            top_left_point = Point(center.x - x_fov, center.y - y_fov)
+            proportion = (self.width / 2) / x_fov
+            main_player_circles += enemy_circles
+            for circle in main_player_circles:
+                final_circles.append(CircleGUI(
+                    coordinate=Point(proportion * (circle.coordinate.x - top_left_point.x),
+                                     proportion * (circle.coordinate.y - top_left_point.y)),
+                    radius=proportion * circle.radius, color=circle.color))
+            for point in points_as_circles:
+                final_circles.append((CircleGUI(coordinate=Point(proportion * (point.coordinate.x - top_left_point.x),
+                                                                 proportion * (point.coordinate.y - top_left_point.y)),
+                                                radius=point.radius, color=point.color)))
+        except Exception:
+            pass
         return final_circles
