@@ -2,11 +2,13 @@ import pygame
 import pyautogui
 import threading
 import math
+import os
 
 from engine.game.Constants import MAP_RADIOS
 from engine.game.Point import Point
 from client_side.gui.GuiObjects import CircleGUI
 
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
 win = pygame.display.set_mode(pyautogui.size())
 pygame.display.set_caption("Agar-IO")
@@ -77,8 +79,6 @@ class WindowGui:
     def gui(self):
 
         run = True
-        print("asd")
-        print(self.circles)
 
         while run:
             for event in pygame.event.get():
