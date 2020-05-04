@@ -3,6 +3,7 @@ import pyautogui
 import threading
 import math
 
+from engine.game.Constants import MAP_RADIOS
 from engine.game.Point import Point
 from client_side.gui.GuiObjects import CircleGUI
 
@@ -85,7 +86,8 @@ class WindowGui:
                     run = False
             win.fill((255, 255, 255))  # Fills the screen with white
             for circle in self.circles.copy():
-                pygame.draw.circle(win, circle.color, (int(circle.coordinate.x), int(circle.coordinate.y)), int(circle.radius))
+                pygame.draw.circle(win, circle.color, (int(circle.coordinate.x), int(circle.coordinate.y)),
+                                   int(circle.radius))
             pygame.display.update()
         pygame.quit()
 
