@@ -40,10 +40,11 @@ def convert_str_to_data(frame):
 
             # circles
             for circle in (remove_chars(circles, [" "])).split(","):
-                circle_info = remove_chars(circles, ["(", ")"])
-                coordinate, radius = circle_info.split('!')
-                x, y = coordinate.split(':')
-                enemy_circles.append(CircleGUI(coordinate=Point(float(x), float(y)), radius=float(radius), color=color))
+                if circle != "":
+                    circle_info = remove_chars(circles, ["(", ")"])
+                    coordinate, radius = circle_info.split('!')
+                    x, y = coordinate.split(':')
+                    enemy_circles.append(CircleGUI(coordinate=Point(float(x), float(y)), radius=float(radius), color=color))
 
     # main_player
     main_player = main_player[1:]
