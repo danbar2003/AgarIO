@@ -28,10 +28,10 @@ def create_hypothesis_spawn_points():
 
 
 class Map:
-    colors = {0: (10, 10, 10),
-              1: (209, 230, 20),
-              2: (30, 30, 30),
-              3: (40, 40, 40),
+    colors = {0: (0, 255, 0),
+              1: (0, 0, 255),
+              2: (60, 181, 255),
+              3: (60, 20, 101),
               4: (50, 50, 50),
               5: (60, 60, 60),
               6: (70, 70, 70),
@@ -71,7 +71,8 @@ class Map:
                 return point
 
     def create_new_player(self, res):
-        player = Player(spawn_point=Point(0, 0), player_id=self.create_id(), color=Map.colors.get(len(self.players)),
+        player = Player(spawn_point=Point(0, 0), player_id=self.create_id(),
+                        color=Map.colors.get(len(self.players)),
                         resolution=res)  # TODO - color
         self.players.append(player)
         return player
