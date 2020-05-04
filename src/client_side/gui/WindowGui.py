@@ -93,7 +93,7 @@ class WindowGui:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-            win.fill((255, 255, 255))  # Fills the screen with white
+            win.fill((255, 0, 0))  # Fills the screen with white
             for circle in self.circles.copy():
                 pygame.draw.circle(win, circle.color, (int(circle.coordinate.x), int(circle.coordinate.y)),
                                    int(circle.radius))
@@ -129,6 +129,9 @@ class WindowGui:
                 final_circles.append((CircleGUI(coordinate=Point(proportion * (point.coordinate.x - top_left_point.x),
                                                                  proportion * (point.coordinate.y - top_left_point.y)),
                                                 radius=point.radius, color=point.color)))
+            m = [CircleGUI(coordinate=Point(proportion * (-top_left_point.x), proportion * (-top_left_point.y)),
+                           radius=proportion * MAP_RADIOS, color=(255, 255, 255))]
+            final_circles = m + final_circles
         except Exception:
             pass
         return final_circles
