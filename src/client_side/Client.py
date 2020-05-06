@@ -49,11 +49,8 @@ class Client:
                 msg += data
 
 
-
-
-
 def main():
-    client = Client(host_ip="192.168.0.133", port=777)
+    client = Client(host_ip="192.168.0.138", port=777)
     client.receive_world_info()
 
 

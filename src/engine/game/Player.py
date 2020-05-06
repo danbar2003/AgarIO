@@ -1,5 +1,6 @@
 from engine.game.Circle import Circle
 from engine.game.Point import Point
+from engine.game.Constants import *
 
 CENTER = Point(0, 0)
 
@@ -41,10 +42,10 @@ class Player:
             for circle in self.circles:
                 circle.move_circle(vector)
 
-    def to_string(self):
-        print('player_id', self.player_id)
+    def minimize_big_circles(self):
         for circle in self.circles:
-            circle.to_string()
+            if circle.circle_radius > BIG_CIRCLE_LIMIT:
+                circle.circle_radius -= MINIMIZE_SIZE
 
     def info_str(self):
         """

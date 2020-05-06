@@ -108,9 +108,4 @@ class Map:
 
             # update players speed
             for player in self.players:
-                # TODO - more work here!!!
-                pass
-
-    def to_string(self):
-        for player in self.players:
-            player.to_string()
+                player.minimize_big_circles()

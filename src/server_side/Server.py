@@ -68,14 +68,19 @@ class Server:
     def share_data_to_clients(self):
         global msg_num
         while True:
+            start_time = time.time()
             if len(self.clients) > 0:
                 points_info = []
                 for point in world.points:
                     points_info.append(f"({point.x}X{point.y})")
                 for client in self.clients.copy():
-                    client.send(to_string(main_player=self.clients[client], players_lst=world.players,
-                                          points_info=points_info).encode())
-            time.sleep(0.001)
+                    try:
+                        client.send(to_string(main_player=self.clients[client], players_lst=world.players,
+                                              points_info=points_info).encode())
+                    except ConnectionResetError:
+                        world.players.remove(self.clients[client])
+                        del self.clients[client]
+            print(time.time() - start_time)
 
 
 def main():

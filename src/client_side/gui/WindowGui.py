@@ -1,3 +1,5 @@
+import time
+
 import pygame
 import pyautogui
 import threading
@@ -90,6 +92,7 @@ class WindowGui:
         run = True
 
         while run:
+            start_time = time.time()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
@@ -98,6 +101,7 @@ class WindowGui:
                 pygame.draw.circle(win, circle.color, (int(circle.coordinate.x), int(circle.coordinate.y)),
                                    int(circle.radius))
             pygame.display.update()
+            print(time.time() - start_time)
         pygame.quit()
 
     def print_data(self, frame):
