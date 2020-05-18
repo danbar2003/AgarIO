@@ -89,9 +89,11 @@ class WindowGui:
         circles = self.calculate_fov(frame)
         run = True
         start_time = time.time()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
         win.fill((255, 0, 0))  # Fills the screen with white
         for circle in circles:
             pygame.draw.circle(win, circle.color, (int(circle.coordinate.x), int(circle.coordinate.y)),
