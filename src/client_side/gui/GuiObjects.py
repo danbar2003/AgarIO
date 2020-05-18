@@ -8,6 +8,3 @@ class CircleGUI:
         self.coordinate = coordinate
         self.radius = radius
         self.color = color
-
-    def draw(self, window):
-        pygame.draw.circle(window, self.color, self.coordinate, self.radius)

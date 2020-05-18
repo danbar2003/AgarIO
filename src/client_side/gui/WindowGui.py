@@ -84,28 +84,22 @@ class WindowGui:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.circles = []
-        threading.Thread(target=self.gui, args=()).start()
 
-    def gui(self):
-
+    def gui(self, frame):
+        circles = self.calculate_fov(frame)
         run = True
-
-        while run:
-            start_time = time.time()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
-            win.fill((255, 0, 0))  # Fills the screen with white
-            for circle in self.circles.copy():
-                pygame.draw.circle(win, circle.color, (int(circle.coordinate.x), int(circle.coordinate.y)),
-                                   int(circle.radius))
-            pygame.display.update()
-            print(time.time() - start_time)
-        pygame.quit()
-
-    def print_data(self, frame):
-        self.circles = self.calculate_fov(frame)
+        start_time = time.time()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        win.fill((255, 0, 0))  # Fills the screen with white
+        for circle in circles:
+            pygame.draw.circle(win, circle.color, (int(circle.coordinate.x), int(circle.coordinate.y)),
+                               int(circle.radius))
+        pygame.display.update()
+        print(time.time() - start_time)
+        if not run:
+            pygame.quit()
 
     def calculate_fov(self, frame):
         main_player_circles, enemy_circles, points_as_circles = convert_str_to_data(frame)

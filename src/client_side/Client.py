@@ -43,14 +43,14 @@ class Client:
                 else:
                     msg += lst[0]
                     next_msg = lst[1]
-                self.gui_window.print_data(msg)
+                self.gui_window.gui(msg)
                 msg = next_msg
             else:
                 msg += data
 
 
 def main():
-    client = Client(host_ip="192.168.0.138", port=777)
+    client = Client(host_ip="192.168.174.3", port=777)
     client.receive_world_info()
 
 
