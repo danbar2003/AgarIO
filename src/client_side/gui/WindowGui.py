@@ -88,7 +88,6 @@ class WindowGui:
     def gui(self, frame):
         circles = self.calculate_fov(frame)
         run = True
-        start_time = time.time()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -99,7 +98,6 @@ class WindowGui:
             pygame.draw.circle(win, circle.color, (int(circle.coordinate.x), int(circle.coordinate.y)),
                                int(circle.radius))
         pygame.display.update()
-        print(time.time() - start_time)
         if not run:
             pygame.quit()
 

@@ -50,7 +50,7 @@ class Client:
 
 
 def main():
-    client = Client(host_ip="192.168.174.3", port=777)
+    client = Client(host_ip="192.168.8.4", port=777)
     client.receive_world_info()
 
 

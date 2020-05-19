@@ -80,7 +80,7 @@ class Server:
                     except ConnectionResetError:
                         world.players.remove(self.clients[client])
                         del self.clients[client]
-            print(time.time() - start_time)
+            # print(time.time() - start_time)
 
 
 def main():

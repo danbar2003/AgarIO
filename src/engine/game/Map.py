@@ -94,7 +94,6 @@ class Map:
                             continue
                         for enemy_circle in enemy_player.circles:
                             if circle.contains(enemy_circle.point_coordinate):
-                                print(type(enemy_circle))
                                 circle.circle_radius = math.sqrt(
                                     circle.circle_radius ** 2 + enemy_circle.circle_radius ** 2)
                                 enemy_player.circles.remove(enemy_circle)
@@ -109,3 +108,8 @@ class Map:
             # update players speed
             for player in self.players:
                 player.minimize_big_circles()
+
+            if len(self.points) < Constants.NUM_OF_POINTS / 5:
+                self.points += create_random_points()
+
+
