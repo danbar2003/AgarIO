@@ -56,6 +56,10 @@ class Map:
         self.players = []
         threading.Thread(target=self.player_interactions, args=()).start()
 
+    def reset_match(self):
+        # TODO - when u have time.
+        pass
+
     def create_id(self):
         return len(self.players)
 
@@ -108,8 +112,4 @@ class Map:
             # update players speed
             for player in self.players:
                 player.minimize_big_circles()
-
-            if len(self.points) < Constants.NUM_OF_POINTS / 5:
-                self.points += create_random_points()
-
 
